@@ -11,7 +11,6 @@ RUN chmod +x gradlew
 
 # Build application
 COPY src ./src
-COPY HELP.md README.md ./
 RUN --mount=type=cache,target=/home/gradle/.gradle ./gradlew --no-daemon bootJar -x test
 
 FROM eclipse-temurin:17-jre-jammy
