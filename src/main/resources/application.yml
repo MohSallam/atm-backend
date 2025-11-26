@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: atm
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/atm}
+    username: ${SPRING_DATASOURCE_USERNAME:atm_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:atm_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+security:
+  auth:
+    max-failed-attempts: 3
+    lock-duration-minutes: 15
+  jwt:
+    secret: "dev-secret-6f8cbb24c2c64c2ba6d4e4d1978b30ef"
+    expiration-seconds: 3600
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+
+
+server:
+  address: 0.0.0.0
