@@ -1,0 +1,9 @@
+.git
+.gitignore
+.gradle
+build
+jacoco-report
+out
+*.iml
+.vscode
+.DS_Store

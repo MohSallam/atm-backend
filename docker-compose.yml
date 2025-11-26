@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    image: atm-app:latest
+    container_name: atm-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/atm
+      SPRING_DATASOURCE_USERNAME: atm_user
+      SPRING_DATASOURCE_PASSWORD: atm_password
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:16
+    container_name: atm-postgres
+    environment:
+      POSTGRES_DB: atm
+      POSTGRES_USER: atm_user
+      POSTGRES_PASSWORD: atm_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-atm_user} -d ${POSTGRES_DB:-atm}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
